@@ -1,0 +1,36 @@
+import { create } from "zustand";
+
+export const useStore = create(set => ({
+    page: 1,
+    formData: {
+        id: crypto.randomUUID(),
+        name: "",
+        email: "",
+        phone: "",
+        preferences: []
+    },
+    changePage: (command) => set(state => {
+        if (command === 'next' && state.page === 3) {
+            return {
+                page: 1
+            }
+        }
+        if (command === 'next') {
+            return {
+                page: state.page + 1
+            }
+        }
+        if (command === 'prev' && state.page === 1) {
+            return {
+                page: 3
+            }
+        }
+        if (command === 'prev') {
+            return {
+                page: state.page - 1
+            }
+        }
+    }),
+    setData: data => set(state => ({formData: {...state.formData, ...data}})),
+    setPreferences: data => set(state => ({formData: {...state.formData, preferences: [data]}}))
+}))
