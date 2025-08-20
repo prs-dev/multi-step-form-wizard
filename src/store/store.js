@@ -31,6 +31,14 @@ export const useStore = create(set => ({
             }
         }
     }),
-    setData: data => set(state => ({formData: {...state.formData, ...data}})),
-    setPreferences: data => set(state => ({formData: {...state.formData, preferences: [data]}}))
+    setData: data => set(state => {
+        const obj = {formData: {...state.formData, ...data}}
+        localStorage.setItem('formData', JSON.stringify(obj))
+        return obj
+    }),
+    setPreferences: data => set(state => {
+        const obj = {formData: {...state.formData, preferences: [data]}}
+        localStorage.setItem('formData', JSON.stringify(obj))
+        return obj
+    })
 }))

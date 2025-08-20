@@ -1,14 +1,55 @@
 import { useStore } from "../store/store"
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 const PageTwo = () => {
-  const {changePage, setPreferences} = useStore()
+  const {changePage, setPreferences, formData} = useStore()
   const [checkboxes, setCheckboxes] = useState({})
   const [selectors, setSelectors] = useState({
     language: '',
     theme: ''
   })
   const [notification, setNotification] = useState('daily')
+
+  useEffect(() => {
+    const {preferences} = formData
+    // console.log(Object.keys(...preferences))
+    const keys = Object.keys(...preferences)
+    // console.log(preferences[0].language)
+    // console.log(keys.includes('language'))
+    if(keys.includes('notification')) {
+     setNotification(preferences[0].notification)
+    }
+    if(keys.includes('language')) {
+     setSelectors(prev => ({
+      ...prev,
+      language: preferences[0].language
+     }))
+    }
+    if(keys.includes('theme')) {
+     setSelectors(prev => ({
+      ...prev,
+      theme: preferences[0].theme
+     }))
+    }
+    if(keys.includes('newsletter')) {
+      setCheckboxes(prev => ({
+        ...prev,
+        newsletter: preferences[0].newsletter
+      }))
+    }
+    if(keys.includes('dark')) {
+      setCheckboxes(prev => ({
+        ...prev,
+        dark: preferences[0].dark
+      }))
+    }
+    if(keys.includes('updates')) {
+      setCheckboxes(prev => ({
+        ...prev,
+        updates: preferences[0].updates
+      }))
+    }
+  }, [])
   
   const handleCheckboxes = e => {
     setCheckboxes(prev => ({
@@ -31,15 +72,15 @@ const PageTwo = () => {
       <div>
         <div>
           <label htmlFor="">Recieve Newsletter</label>
-          <input type="checkbox" name="newsletter" onChange={handleCheckboxes}/>
+          <input type="checkbox" name="newsletter" checked={checkboxes.newsletter} onChange={handleCheckboxes}/>
         </div>
         <div>
           <label htmlFor="">Dark Mode By Default</label>
-          <input type="checkbox" name="dark" onChange={handleCheckboxes}/>
+          <input type="checkbox" name="dark" checked={checkboxes.dark} onChange={handleCheckboxes}/>
         </div>
         <div>
           <label htmlFor="">Recieve Product Updates</label>
-          <input type="checkbox" name="updates" onChange={handleCheckboxes}/>
+          <input type="checkbox" name="updates" checked={checkboxes.updates} onChange={handleCheckboxes}/>
         </div>
       </div>
       {/* selectors */}

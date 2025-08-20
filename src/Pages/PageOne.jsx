@@ -1,4 +1,4 @@
-import { useState, useReducer } from 'react'
+import { useState, useReducer, useEffect } from 'react'
 import { useStore } from "../store/store"
 
 const initialState = {
@@ -22,31 +22,70 @@ const initialState = {
 const reducer = (state, action) => {
     switch (action.type) {
         case 'name':
-            return { ...state, name: {
-                value: action.payload.value,
-                touched: true,
-                error: action.payload.error
-            } }
+            return {
+                ...state, name: {
+                    value: action.payload.value,
+                    touched: true,
+                    error: action.payload.error
+                }
+            }
         case 'email':
-            return { ...state, email: {
-                value: action.payload.value,
-                touched: true,
-                error: action.payload.error
-            } }
+            return {
+                ...state, email: {
+                    value: action.payload.value,
+                    touched: true,
+                    error: action.payload.error
+                }
+            }
         case 'phone':
-            return { ...state, phone: {
-                value: action.payload.value,
-                touched: true,
-                error: action.payload.error
-            } }
+            return {
+                ...state, phone: {
+                    value: action.payload.value,
+                    touched: true,
+                    error: action.payload.error
+                }
+            }
         default:
             throw new Error(`Unknown action type: ${action.type}`)
     }
 }
 
 const PageOne = () => {
-    const { page, changePage, setData } = useStore()
+    const { page, changePage, setData, formData } = useStore()
     const [state, dispatch] = useReducer(reducer, initialState)
+    useEffect(() => {
+        // const data = localStorage.getItem("formData")
+        // if (data) {
+        //     setData(JSON.parse(data))
+        // }
+        // console.log("data", data)
+        const { formData: data } = JSON.parse(localStorage.getItem("formData"))
+        if (data) {
+            setData(data)
+        }
+        if (page === 1) {
+            const { name, email, phone } = data
+            // console.log("testing", name, email, phone)
+            dispatch({
+                type: "name", payload: {
+                    value: name,
+                    error: null
+                }
+            })
+            dispatch({
+                type: "email", payload: {
+                    value: email,
+                    error: null
+                }
+            })
+            dispatch({
+                type: "phone", payload: {
+                    value: phone,
+                    error: null
+                }
+            })
+        }
+    }, [])
     // const [value, setValue] = useState({
     //     name: '',
     //     email: "",
@@ -89,7 +128,7 @@ const PageOne = () => {
     //         [e.target.name]: e.target.value
     //     }))
     // }
-    console.log("test", state)
+    console.log("test", state, formData)
     return (
         <div style={pageStyle}>
             <div style={containerStyles}>
@@ -100,10 +139,12 @@ const PageOne = () => {
                     // value={value.name}
                     value={state.name.value}
                     // onChange={handleChange}
-                    onChange={e => dispatch({ type: 'name', payload: {
-                        value: e.target.value,
-                        error: state.name.touched ? e.target.value.length === 0 : null
-                    }})}
+                    onChange={e => dispatch({
+                        type: 'name', payload: {
+                            value: e.target.value,
+                            error: state.name.touched ? e.target.value.length === 0 : null
+                        }
+                    })}
                 />
             </div>
             <div style={containerStyles}>
@@ -112,10 +153,12 @@ const PageOne = () => {
                     style={inputStyles}
                     className={state.email.error ? 'error' : ''}
                     value={state.email.value}
-                    onChange={e => dispatch({ type: 'email', payload: {
-                        value: e.target.value,
-                        error: state.email.touched ? e.target.value.length === 0 : null
-                    }})}
+                    onChange={e => dispatch({
+                        type: 'email', payload: {
+                            value: e.target.value,
+                            error: state.email.touched ? e.target.value.length === 0 : null
+                        }
+                    })}
                 />
             </div>
             <div style={containerStyles}>
@@ -124,16 +167,22 @@ const PageOne = () => {
                     style={inputStyles}
                     className={state.phone.error ? 'error' : ''}
                     value={state.phone.value}
-                    onChange={e => dispatch({ type: 'phone', payload: {
-                        value: e.target.value,
-                        error: state.phone.touched ? e.target.value.length === 0 : null
-                    }})}
+                    onChange={e => dispatch({
+                        type: 'phone', payload: {
+                            value: e.target.value,
+                            error: state.phone.touched ? e.target.value.length === 0 : null
+                        }
+                    })}
                 />
             </div>
             <div>
                 <button onClick={() => {
                     changePage('next')
-                    setData(value)
+                    setData({
+                        name: state.name.value,
+                        email: state.email.value,
+                        phone: state.phone.value
+                    })
                 }} style={{
                     padding: "10px",
                     border: "1px solid #333",
