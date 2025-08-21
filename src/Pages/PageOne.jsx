@@ -59,10 +59,15 @@ const PageOne = () => {
         //     setData(JSON.parse(data))
         // }
         // console.log("data", data)
+        if (formData == null) {
+            console.log('here')
+            return
+        }
         const { formData: data } = JSON.parse(localStorage.getItem("formData"))
         if (data) {
             setData(data)
         }
+
         if (page === 1) {
             const { name, email, phone } = data
             // console.log("testing", name, email, phone)

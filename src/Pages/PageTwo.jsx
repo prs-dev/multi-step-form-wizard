@@ -12,6 +12,9 @@ const PageTwo = () => {
 
   useEffect(() => {
     const {preferences} = formData
+    if(preferences.length === 0) {
+      return 
+    }
     // console.log(Object.keys(...preferences))
     const keys = Object.keys(...preferences)
     // console.log(preferences[0].language)

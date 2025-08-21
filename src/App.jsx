@@ -3,30 +3,11 @@ import PageOne from './Pages/PageOne'
 import PageTwo from './Pages/PageTwo'
 import PageThree from './Pages/PageThree'
 import { useEffect, useRef } from 'react'
+import useFormProgress from './hooks/useFormProgress'
 
 const App = () => {
   const {page, formData, setData} = useStore()
-  // console.log("form", formData)
-  // const page = 2
-  // useEffect(() => { 
-  //   if(firstRender.current) {
-  //     firstRender.current = false
-  //     console.log("i'm here")
-  //   }
-  // }, [])
-  // useEffect(() => {
-  //   const {formData: data} = localStorage.getItem('formData')
-  //   if(firstRender.current) {
-  //     setData(JSON.parse(data))
-  //   }
-  // }, [formData])
-  // useEffect(() => {
-  //   const {formData: data} = JSON.parse(localStorage.getItem("formData"))
-  //   if(data) {
-  //     setData(data)
-  //   }
-    // console.log("date", data)
-  // }, [])
+  const {progress, currentStep, totalSteps} = useFormProgress()
   const pageStyle = {
         width: "100%",
         height: "100vh",
@@ -36,6 +17,23 @@ const App = () => {
       }
   return (
     <div>
+      <div style={{ 
+        width: "100%", 
+        height: "8px", 
+        background: "#eee", 
+        borderRadius: "9999px", 
+        overflow: "hidden",
+        margin: "10px 0"
+      }}>
+        <div style={{
+          width: `${progress}%`,
+          height: "100%",
+          background: "dodgerblue",
+          transition: "width 0.3s"
+        }} />
+      </div>
+
+      <p>Step {currentStep} of {totalSteps} — {progress}%</p>
       {page === 1 && <div style={pageStyle}>
         <PageOne />
       </div>}
