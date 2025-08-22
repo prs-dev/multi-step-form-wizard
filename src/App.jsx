@@ -7,13 +7,6 @@ import useFormProgress from './hooks/useFormProgress'
 
 const App = () => {
   const {page, formData, setData} = useStore()
-  useEffect(() => {
-    localStorage.setItem("formData", JSON.stringify({formData: {
-      name: '',
-      email: '',
-      phone: ''
-    }}))
-  }, [])
   const {progress, currentStep, totalSteps} = useFormProgress()
   const pageStyle = {
         width: "100%",

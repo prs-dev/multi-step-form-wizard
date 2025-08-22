@@ -54,50 +54,40 @@ const PageOne = () => {
     const { page, changePage, setData, formData } = useStore()
     const [state, dispatch] = useReducer(reducer, initialState)
     useEffect(() => {
-        // const data = localStorage.getItem("formData")
-        // if (data) {
-        //     setData(JSON.parse(data))
-        // }
-        // console.log("data", data)
-        if (formData == null) {
-            console.log('here')
-            return
-        }
-        const { formData: data } = JSON.parse(localStorage.getItem("formData"))
-        if (data) {
-            setData(data)
+        const saved = localStorage.getItem('formData')
+
+        const initialData = saved ? JSON.parse(saved).formData : {
+            name: '',
+            email: '',
+            phone: '',
+            preferences: []
         }
 
-        if (page === 1) {
-            const { name, email, phone } = data
-            // console.log("testing", name, email, phone)
-            dispatch({
-                type: "name", payload: {
-                    value: name,
-                    error: null
-                }
-            })
-            dispatch({
-                type: "email", payload: {
-                    value: email,
-                    error: null
-                }
-            })
-            dispatch({
-                type: "phone", payload: {
-                    value: phone,
-                    error: null
-                }
-            })
-        }
+        setData(initialData)
+
+        const { name, email, phone } = initialData
+        
+        dispatch({
+            type: "name", payload: {
+                value: name,
+                error: null
+            }
+        })
+        dispatch({
+            type: "email", payload: {
+                value: email,
+                error: null
+            }
+        })
+        dispatch({
+            type: "phone", payload: {
+                value: phone,
+                error: null
+            }
+        })
+
     }, [])
-    // const [value, setValue] = useState({
-    //     name: '',
-    //     email: "",
-    //     phone: ''
-    // })
 
-    // console.log(changePage, page)
     const pageStyle = {
         width: "70%",
         height: "70%",
@@ -127,12 +117,6 @@ const PageOne = () => {
     const labelStyles = {
         fontSize: "20px"
     }
-    // const handleChange = e => {
-    //     setValue(prev => ({
-    //         ...prev,
-    //         [e.target.name]: e.target.value
-    //     }))
-    // }
     console.log("test", state, formData)
     return (
         <div style={pageStyle}>

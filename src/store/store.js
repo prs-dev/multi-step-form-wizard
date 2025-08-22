@@ -41,16 +41,13 @@ export const useStore = create(set => ({
         return obj
     }),
     setSubmit: () => set(state => {
-        localStorage.setItem("formData", JSON.stringify({formData: {
+        const initialState = {
             name: '',
             email: '',
-            phone: ''
-        }}))
-        return {
-            name: "",
-            email: "",
-            phone: "",
+            phone: '',
             preferences: []
         }
+        localStorage.setItem("formData", JSON.stringify({formData: initialState}))
+        return initialState
     })
 }))

@@ -6,6 +6,7 @@ import Markdown from "react-markdown"
 const PageThree = () => {
   const { changePage, formData, setSubmit } = useStore()
   const [review, setReview] = useState('')
+  const [submitted, setSubmitted] = useState(false)
 
   const handleReview = async () => {
     try {
@@ -21,8 +22,13 @@ const PageThree = () => {
     }
   }
 
-  return (
-    <div>
+  if(submitted) {
+    return (
+      <div>Submitted</div>
+    )
+  } else {
+    return (
+      <div>
       <div>
         Final Step
       </div>
@@ -63,7 +69,10 @@ const PageThree = () => {
       <div>
         <button onClick={() => changePage("prev")}>Prev</button>
         <button onClick={handleReview}>Review</button>
-        <button onClick={setSubmit}>Submit</button>
+        <button onClick={() => {
+          setSubmit()
+          setSubmitted(true)
+        }}>Submit</button>
       </div>
       <div>
         {/* review */}
@@ -76,7 +85,8 @@ const PageThree = () => {
           </div>}
       </div>
     </div>
-  )
+    )
+  }
 }
 
 export default PageThree
