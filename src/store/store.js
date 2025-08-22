@@ -3,7 +3,6 @@ import { create } from "zustand";
 export const useStore = create(set => ({
     page: 1,
     formData: {
-        id: crypto.randomUUID(),
         name: "",
         email: "",
         phone: "",
@@ -32,13 +31,26 @@ export const useStore = create(set => ({
         }
     }),
     setData: data => set(state => {
-        const obj = {formData: {...state.formData, ...data}}
+        const obj = { formData: { ...state.formData, ...data } }
         localStorage.setItem('formData', JSON.stringify(obj))
         return obj
     }),
     setPreferences: data => set(state => {
-        const obj = {formData: {...state.formData, preferences: [data]}}
+        const obj = { formData: { ...state.formData, preferences: [data] } }
         localStorage.setItem('formData', JSON.stringify(obj))
         return obj
+    }),
+    setSubmit: () => set(state => {
+        localStorage.setItem("formData", JSON.stringify({formData: {
+            name: '',
+            email: '',
+            phone: ''
+        }}))
+        return {
+            name: "",
+            email: "",
+            phone: "",
+            preferences: []
+        }
     })
 }))

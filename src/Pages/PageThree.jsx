@@ -4,7 +4,7 @@ import { aiReview } from "../utils/aiReview"
 import Markdown from "react-markdown"
 
 const PageThree = () => {
-  const { changePage, formData } = useStore()
+  const { changePage, formData, setSubmit } = useStore()
   const [review, setReview] = useState('')
 
   const handleReview = async () => {
@@ -63,7 +63,7 @@ const PageThree = () => {
       <div>
         <button onClick={() => changePage("prev")}>Prev</button>
         <button onClick={handleReview}>Review</button>
-        <button>Submit</button>
+        <button onClick={setSubmit}>Submit</button>
       </div>
       <div>
         {/* review */}
