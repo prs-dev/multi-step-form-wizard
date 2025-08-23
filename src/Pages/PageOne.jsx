@@ -1,5 +1,17 @@
 import { useState, useReducer, useEffect } from 'react'
 import { useStore } from "../store/store"
+import { Input } from "@/components/ui/Input"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import {
+    Card,
+    CardAction,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
 
 const initialState = {
     name: {
@@ -66,7 +78,7 @@ const PageOne = () => {
         setData(initialData)
 
         const { name, email, phone } = initialData
-        
+
         dispatch({
             type: "name", payload: {
                 value: name,
@@ -88,98 +100,68 @@ const PageOne = () => {
 
     }, [])
 
-    const pageStyle = {
-        width: "70%",
-        height: "70%",
-        background: "rgba(0,0,0,.2)",
-        borderRadius: "10px",
-        boxShadow: "5px 5px 10px rgba(0,0,0,.2)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-        padding: "100px"
-    }
-    const containerStyles = {
-        display: "flex",
-        width: "100%",
-        height: "100%",
-        flexDirection: "column",
-        gap: "10px"
-    }
-    const inputStyles = {
-        width: "100%",
-        height: "50px",
-        padding: "10px",
-        border: "none",
-        borderRadius: "10px"
-    }
-    const labelStyles = {
-        fontSize: "20px"
-    }
-    console.log("test", state, formData)
+    // console.log("test", state, formData)
     return (
-        <div style={pageStyle}>
-            <div style={containerStyles}>
-                <label style={labelStyles} htmlFor="">Name</label>
-                <input type="text" name="name"
-                    className={state.name.error ? 'error' : ''}
-                    style={inputStyles}
-                    // value={value.name}
-                    value={state.name.value}
-                    // onChange={handleChange}
-                    onChange={e => dispatch({
-                        type: 'name', payload: {
-                            value: e.target.value,
-                            error: state.name.touched ? e.target.value.length === 0 : null
-                        }
-                    })}
-                />
-            </div>
-            <div style={containerStyles}>
-                <label style={labelStyles} htmlFor="">Email</label>
-                <input type="email" name="email"
-                    style={inputStyles}
-                    className={state.email.error ? 'error' : ''}
-                    value={state.email.value}
-                    onChange={e => dispatch({
-                        type: 'email', payload: {
-                            value: e.target.value,
-                            error: state.email.touched ? e.target.value.length === 0 : null
-                        }
-                    })}
-                />
-            </div>
-            <div style={containerStyles}>
-                <label style={labelStyles} htmlFor="">Phone</label>
-                <input type="number" name="phone"
-                    style={inputStyles}
-                    className={state.phone.error ? 'error' : ''}
-                    value={state.phone.value}
-                    onChange={e => dispatch({
-                        type: 'phone', payload: {
-                            value: e.target.value,
-                            error: state.phone.touched ? e.target.value.length === 0 : null
-                        }
-                    })}
-                />
-            </div>
-            <div>
-                <button onClick={() => {
+        <Card className='w-full max-w-md'>
+            <CardHeader>
+                <CardTitle>Enter Basic Information</CardTitle>
+                <CardDescription>Please provide basic information, like name, email and phone number</CardDescription>
+                <CardAction>Step 1</CardAction>
+            </CardHeader>
+            <CardContent>
+                <div className=''>
+                    <Label className='p-2 text-md' htmlFor="">Name</Label>
+                    <Input type="text" name="name"
+                        className={state.name.error ? 'error' : ''}
+                        value={state.name.value}
+                        onChange={e => dispatch({
+                            type: 'name', payload: {
+                                value: e.target.value,
+                                error: state.name.touched ? e.target.value.length === 0 : null
+                            }
+                        })}
+                    />
+                </div>
+                <div className=''>
+                    <Label className='p-2 text-md' htmlFor="email">Email</Label>
+                    <Input type="email" name="email"
+                        className={state.email.error ? 'error' : ''}
+                        value={state.email.value}
+                        onChange={e => dispatch({
+                            type: 'email', payload: {
+                                value: e.target.value,
+                                error: state.email.touched ? e.target.value.length === 0 : null
+                            }
+                        })}
+                    />
+                </div>
+                <div>
+                    <Label className="p-2 text-md" htmlFor="phone">Phone</Label>
+                    <Input type="number" name="phone"
+                        className={state.phone.error ? 'error' : ''}
+                        value={state.phone.value}
+                        onChange={e => dispatch({
+                            type: 'phone', payload: {
+                                value: e.target.value,
+                                error: state.phone.touched ? e.target.value.length === 0 : null
+                            }
+                        })}
+                    />
+                </div>
+            </CardContent>
+            <CardFooter>
+
+                <Button className='w-20 h-10' onClick={() => {
                     changePage('next')
                     setData({
                         name: state.name.value,
                         email: state.email.value,
                         phone: state.phone.value
                     })
-                }} style={{
-                    padding: "10px",
-                    border: "1px solid #333",
-                    fontSize: "16px",
-                    borderRadius: "5px"
-                }}>Next</button>
-            </div>
-        </div>
+                }}>Next</Button>
+
+            </CardFooter>
+        </Card>
     )
 }
 
