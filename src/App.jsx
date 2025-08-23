@@ -21,7 +21,7 @@ const App = () => {
       <div className='p-2'>
         <Progress value={progress} />
       </div>
-      <p className='p-2'>Step {currentStep} of {totalSteps} — {progress}%</p>
+      <p className='p-2 font-semibold'>Step {currentStep} of {totalSteps} — {progress}%</p>
       {page === 1 && <div style={pageStyle}>
         <PageOne />
       </div>}
